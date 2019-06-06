@@ -1,0 +1,11 @@
+endpoint: ${env:PRISMA_ENDPOINT}
+secret: ${env:PRISMA_SECRET}
+datamodel: datamodel.prisma
+
+generate:
+  - generator: graphql-schema
+    output: ../src/generated/prisma.graphql
+
+hooks:
+  post-deploy:
+    - prisma generate
