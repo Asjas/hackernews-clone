@@ -8,7 +8,7 @@ const typeDefs = importSchema(`${__dirname}/schema.graphql`);
 const Query = require('./resolvers/Query');
 const Mutation = require('./resolvers/Mutation');
 
-require('dotenv').config({ path: `${__dirname}/.env` })
+require('dotenv').config({ path: `${__dirname}/.env` });
 
 const { PRISMA_ENDPOINT, PRISMA_SECRET } = process.env;
 
@@ -22,14 +22,22 @@ const server = new ApolloServer({
   typeDefs,
   resolvers: {
     Query,
-    Mutation
+    Mutation,
   },
-  context: req => ({ ...req, db })
+  playground: {
+    settings: {
+      'editor.cursorShape': 'underline',
+      'editor.fontFamily': "'Operator Mono', 'Source Code Pro', 'Consolas', 'Inconsolata'",
+      'editor.fontSize': '16',
+      'prettier.printWidth': 100,
+    },
+  },
+  context: req => ({ ...req, db }),
 });
 
 const app = new Koa();
 server.applyMiddleware({ app });
 
 app.listen({ port: 4000 }, () =>
-  console.log(`✔️ Server ready at http://localhost:4000${server.graphqlPath}`)
+  console.log(`✔️ Server ready at http://localhost:4000${server.graphqlPath}`),
 );

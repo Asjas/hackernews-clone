@@ -1,0 +1,7 @@
+type Link @db(name: "link") {
+  id: ID! @id
+  description: String!
+  url: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
