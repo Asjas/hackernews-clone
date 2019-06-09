@@ -20,6 +20,21 @@
     "prisma-binding": "^2.3.11"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "husky": "^2.4.0",
+    "lint-staged": "^8.2.0",
+    "nodemon": "^1.19.1",
+    "prettier": "^1.18.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn lint"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,css,scss,graphql,yml}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
