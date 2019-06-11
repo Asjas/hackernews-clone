@@ -4,5 +4,5 @@ secret: ${env:PRISMA_SECRET}
 datamodel: datamodel.prisma
 
 generate:
-  - generator: graphql-schema
-    output: ../src/generated/prisma.graphql
+  - generator: javascript-client
+    output: ../src/generated/prisma-client

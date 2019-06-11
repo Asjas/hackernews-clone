@@ -1,28 +1,24 @@
 const Koa = require('koa');
 const jwt = require('jsonwebtoken');
 const { ApolloServer } = require('apollo-server-koa');
-const { Prisma } = require('prisma-binding');
 const { importSchema } = require('graphql-import');
-
-const typeDefs = importSchema(`${__dirname}/schema.graphql`);
-const Query = require('./resolvers/Query');
-const Mutation = require('./resolvers/Mutation');
 
 require('dotenv').config({ path: `${__dirname}/.env` });
 
-const { PRISMA_ENDPOINT, PRISMA_SECRET } = process.env;
-
-const db = new Prisma({
-  typeDefs: `${__dirname}/generated/prisma.graphql`,
-  endpoint: PRISMA_ENDPOINT,
-  secret: PRISMA_SECRET,
-});
+const { prisma } = require('./generated/prisma-client');
+const typeDefs = importSchema(`${__dirname}/schema.graphql`);
+const Query = require('./resolvers/Query');
+const Mutation = require('./resolvers/Mutation');
+const Link = require('./resolvers/Link');
+const User = require('./resolvers/User');
 
 const server = new ApolloServer({
   typeDefs,
   resolvers: {
     Query,
     Mutation,
+    Link,
+    User,
   },
   playground: {
     settings: {
@@ -32,7 +28,10 @@ const server = new ApolloServer({
       'prettier.printWidth': 100,
     },
   },
-  context: req => ({ ...req, db }),
+  context: ({ ctx }) => ({
+    ...ctx,
+    prisma,
+  }),
 });
 
 const app = new Koa();

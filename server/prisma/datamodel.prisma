@@ -4,4 +4,13 @@ type Link @db(name: "link") {
   url: String!
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
+  postedBy: User
+}
+
+type User @db(name: "user") {
+  id: ID! @id
+  name: String!
+  email: String! @unique
+  password: String!
+  links: [Link!]!
 }
