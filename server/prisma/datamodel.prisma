@@ -5,6 +5,7 @@ type Link @db(name: "link") {
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   postedBy: User
+  votes: [Vote!]!
 }
 
 type User @db(name: "user") {
@@ -13,4 +14,11 @@ type User @db(name: "user") {
   email: String! @unique
   password: String!
   links: [Link!]!
+  votes: [Vote!]!
+}
+
+type Vote @db(name: "vote") {
+  id: ID! @id
+  link: Link!
+  user: User!
 }

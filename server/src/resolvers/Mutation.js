@@ -45,6 +45,23 @@ const Mutations = {
 
     return Link;
   },
+  async vote(parent, args, ctx, info) {
+    const usreId = getUserId(ctx);
+
+    const linkExists = await ctx.prisma.$exists.vote({
+      user: { id: userId },
+      link: { id: args.linkId },
+    });
+
+    if (linkExists) {
+      throw new Error(`Already voted for link: ${args.linkId}`);
+    }
+
+    return ctx.prisma.createVote({
+      user: { connect: { id: userId } },
+      link: { connect: { id: args.linkId } },
+    });
+  },
 };
 
 module.exports = Mutations;

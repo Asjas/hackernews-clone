@@ -1,8 +1,9 @@
-const { forwardTo } = require('prisma-binding');
-
 const Link = {
   async postedBy(parent, args, ctx, info) {
-    return await ctx.prisma.link({ id: parent.id }).postedBy();
+    return ctx.prisma.link({ id: parent.id }).postedBy();
+  },
+  async votes(parent, args, ctx, info) {
+    return ctx.prisma.link({ id: parent.id }).votes();
   },
 };
 
