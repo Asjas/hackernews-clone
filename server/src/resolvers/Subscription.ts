@@ -20,7 +20,4 @@ const newVote = {
   },
 };
 
-module.exports = {
-  newLink,
-  newVote,
-};
+export default { Subscription: { newLink, newVote } };

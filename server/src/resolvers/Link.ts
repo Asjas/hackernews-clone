@@ -7,4 +7,4 @@ const Link = {
   },
 };
 
-module.exports = Link;
+export default Link;

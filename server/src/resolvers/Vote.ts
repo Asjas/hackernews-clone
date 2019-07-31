@@ -7,4 +7,4 @@ const Vote = {
   },
 };
 
-module.exports = Vote;
+export default Vote;

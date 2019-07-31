@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "concurrently -k \"npm run watch-ts\" \"npm run watch\" ",
-    "watch": "nodemon -e js,graphql -x node --inspect dist/index.js",
+    "watch": "nodemon -e ts,graphql -x node --inspect dist/index.js",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "prisma:deploy": "prisma deploy --env-file src/.env",
@@ -26,6 +26,9 @@
   },
   "devDependencies": {
     "@types/graphql": "^14.2.3",
+    "@types/jsonwebtoken": "^8.3.2",
+    "@types/koa": "^2.0.49",
+    "@types/node": "^12.6.8",
     "concurrently": "^4.1.1",
     "husky": "^3.0.2",
     "lint-staged": "^9.2.1",
