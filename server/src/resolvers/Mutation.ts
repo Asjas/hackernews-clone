@@ -1,9 +1,9 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { APP_SECRET, getUserId } from '../utils';
+import * as bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
+import { Context, APP_SECRET, getUserId } from '../utils';
 
-const Mutations = {
-  async signup(parent, args, ctx, info) {
+export const Mutation = {
+  async signup(parent, args, ctx: Context, info) {
     args.email = args.email.toLowerCase();
 
     const password = await bcrypt.hash(args.password, 10);
@@ -17,7 +17,7 @@ const Mutations = {
 
     return { token, user };
   },
-  async login(parent, args, ctx, info) {
+  async login(parent, args, ctx: Context, info) {
     const user = await ctx.prisma.user({ email: args.email });
 
     if (!user) {
@@ -34,7 +34,7 @@ const Mutations = {
 
     return { token, user };
   },
-  async post(parent, args, ctx, info) {
+  async post(parent, args, ctx: Context, info) {
     const userId = getUserId(ctx);
 
     const Link = await ctx.prisma.createLink({
@@ -45,7 +45,7 @@ const Mutations = {
 
     return Link;
   },
-  async vote(parent, args, ctx, info) {
+  async vote(parent, args, ctx: Context, info) {
     const userId = getUserId(ctx);
 
     const linkExists = await ctx.prisma.$exists.vote({
@@ -63,5 +63,3 @@ const Mutations = {
     });
   },
 };
-
-export default Mutations;

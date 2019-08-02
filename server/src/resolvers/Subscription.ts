@@ -1,23 +1,20 @@
-async function newLinkSubscribe(parent, args, ctx, info) {
-  return ctx.prisma.$subscribe.link({ mutation_in: ['CREATED'] }).node();
-}
+import { Context } from '../utils';
 
-async function newVoteSubscribe(parent, args, ctx, info) {
-  return ctx.prisma.$subscribe.vote({ mutation_in: ['CREATED'] }).node();
-}
-
-const newLink = {
-  subscribe: newLinkSubscribe,
-  resolve: payload => {
-    return payload;
+export const Subscription = {
+  newLink: {
+    subscribe: async (parent, args, ctx: Context, info) => {
+      return ctx.prisma.$subscribe.link({ mutation_in: ['CREATED'] }).node();
+    },
+    resolve: payload => {
+      return payload;
+    },
+  },
+  newVote: {
+    subscribe: async (parent, args, ctx: Context, info) => {
+      return ctx.prisma.$subscribe.vote({ mutation_in: ['CREATED'] }).node();
+    },
+    resolve: payload => {
+      return payload;
+    },
   },
 };
-
-const newVote = {
-  subscribe: newVoteSubscribe,
-  resolve: payload => {
-    return payload;
-  },
-};
-
-export default { Subscription: { newLink, newVote } };

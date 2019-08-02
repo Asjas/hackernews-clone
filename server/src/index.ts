@@ -1,28 +1,17 @@
 import Koa from 'koa';
-import { ApolloServer } from 'apollo-server-koa';
+import * as fs from 'fs';
+import { ApolloServer, gql } from 'apollo-server-koa';
 import { importSchema } from 'graphql-import';
+import { prisma } from './generated/prisma-client';
 
+import resolvers from './resolvers';
 require('dotenv').config({ path: `${__dirname}/.env` });
 
-import { prisma } from './generated/prisma-client';
-import * as typeDefs from './schema.graphql';
-import Query from './resolvers/Query';
-import Mutation from './resolvers/Mutation';
-import Subscription from './resolvers/Subscription';
-import Link from './resolvers/Link';
-import User from './resolvers/User';
-import Vote from './resolvers/Vote';
+import { typeDefs } from './schema';
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers: {
-    Query,
-    Mutation,
-    Subscription,
-    Link,
-    User,
-    Vote,
-  },
+  resolvers,
   playground: {
     settings: {
       'editor.cursorShape': 'underline',

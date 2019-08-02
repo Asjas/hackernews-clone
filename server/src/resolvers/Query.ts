@@ -1,5 +1,7 @@
-const Query = {
-  async feed(parent, args, ctx, info) {
+import { Context } from '../utils';
+
+export const Query = {
+  async feed(parent, args, ctx: Context, info) {
     const where = args.filter
       ? {
           OR: [{ description_contains: args.filter }, { url_contains: args.filter }],
@@ -21,5 +23,3 @@ const Query = {
     return { links, count };
   },
 };
-
-export default Query;
