@@ -1,13 +1,10 @@
 import Koa from 'koa';
-import * as fs from 'fs';
-import { ApolloServer, gql } from 'apollo-server-koa';
-import { importSchema } from 'graphql-import';
+import { ApolloServer } from 'apollo-server-koa';
 import { prisma } from './generated/prisma-client';
-
 import resolvers from './resolvers';
-require('dotenv').config({ path: `${__dirname}/.env` });
-
 import { typeDefs } from './schema';
+
+require('dotenv').config({ path: `${__dirname}/.env` });
 
 const server = new ApolloServer({
   typeDefs,
