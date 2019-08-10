@@ -15,4 +15,4 @@ services:
     command:
 
 networks:
-  hackernews:
+  web:
