@@ -3,8 +3,8 @@ FROM node:10.16.2-stretch
 ENV NODE_ENV production
 ENV PM2_PUBLIC_KEY vxqa4sl51s5qhbz
 ENV PM2_SECRET_KEY sabgc98o5d73n7p
-ENV PRISMA_ENDPOINT f
-ENV PRISMA_SECRET "hYorMMg#39r^"
+ENV PRISMA_ENDPOINT "http://prisma.asjas.co.za:4466"
+ENV PRISMA_SECRET "hY98DSFLKjasdh8890839r"
 
 RUN npm install pm2 yarn -g
 
