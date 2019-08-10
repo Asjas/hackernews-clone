@@ -1,5 +1,7 @@
 FROM node:10.16.2-stretch
 
+RUN apt update && apt install vim -y
+
 ENV NODE_ENV production
 ENV PM2_PUBLIC_KEY vxqa4sl51s5qhbz
 ENV PM2_SECRET_KEY sabgc98o5d73n7p
