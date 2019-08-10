@@ -9,10 +9,24 @@ services:
     command:
   server:
     build: ./server
-    environment:
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 300M
+      labels:
+        - traefik.frontend.rule=Host:hackernews.asjas.co.za
+        - traefik.enable=true
+        - traefik.protocol=https
+        - traefik.backend=traefik
+        - traefik.port=4000
+      restart_policy:
+        condition: on-failure
     ports:
       - "4000:4000"
-    command:
+    networks:
+      - web
 
 networks:
   web:
