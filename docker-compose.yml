@@ -10,10 +10,10 @@ services:
           cpus: "0.2"
           memory: 300M
       labels:
-        - traefik.frontend.rule=Host:hackernews.asjas.co.za
+        - traefik.frontend.rule=Host:hackernews-api.asjas.co.za
         - traefik.enable=true
         - traefik.protocol=https
-        - traefik.backend=traefik
+        - traefik.backend=hackernews-server
         - traefik.port=4000
       restart_policy:
         condition: on-failure
