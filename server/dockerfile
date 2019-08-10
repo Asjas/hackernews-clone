@@ -1,0 +1,26 @@
+FROM node:10.16.2-stretch
+
+ENV NODE_ENV production
+ENV PM2_PUBLIC_KEY vxqa4sl51s5qhbz
+ENV PM2_SECRET_KEY sabgc98o5d73n7p
+ENV PRISMA_ENDPOINT f
+ENV PRISMA_SECRET "hYorMMg#39r^"
+
+RUN npm install pm2 yarn -g
+
+RUN mkdir -p /app
+
+WORKDIR /app
+
+COPY package.json /app/package.json
+COPY yarn.lock /app/yarn.lock
+
+RUN yarn
+
+COPY . /app
+
+RUN yarn build
+
+EXPOSE 4000
+
+CMD ["pm2-runtime", "start", "ecosystem.config.js", "--env", "production"]

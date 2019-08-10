@@ -25,8 +25,9 @@ const server = new ApolloServer({
 const app = new Koa();
 server.applyMiddleware({ app });
 
-const httpServer = app.listen({ port: 4000 }, () =>
-  console.log(`✔️ Server ready at http://localhost:4000${server.graphqlPath}`),
-);
+const httpServer = app.listen({ port: 4000 }, () => {
+  console.log(`✔️ Server ready at http://localhost:4000${server.graphqlPath}`);
+  process.send('ready');
+});
 
 server.installSubscriptionHandlers(httpServer);
