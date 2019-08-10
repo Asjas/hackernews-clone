@@ -8,7 +8,8 @@
     "dev": "nodemon -e ts,graphql -x node --inspect -r ts-node/register src/index.ts",
     "build": "rimraf dist && tsc",
     "build-ts": "tsc",
-    "prisma:deploy": "prisma deploy --env-file src/.env",
+    "prisma:deploy": "prisma deploy",
+    "prisma:deploy:dev": "prisma deploy --env-file src/.env",
     "prisma:generate": "prisma generate --env-file src/.env"
   },
   "dependencies": {
