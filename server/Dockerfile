@@ -5,8 +5,9 @@ RUN apt update && apt install vim -y
 ENV NODE_ENV production
 ENV PM2_PUBLIC_KEY vxqa4sl51s5qhbz
 ENV PM2_SECRET_KEY sabgc98o5d73n7p
-ENV PRISMA_ENDPOINT "http://prisma.asjas.co.za:4466"
+ENV PRISMA_ENDPOINT "http://prisma.asjas.co.za:4466/hackernews/prod"
 ENV PRISMA_SECRET "hY98DSFLKjasdh8890839r"
+ENV PRISMA_MANAGEMENT_API_SECRET "hY98DSFLKjasdh8890839r"
 
 RUN npm install pm2 yarn -g
 
@@ -22,6 +23,8 @@ RUN yarn
 COPY . /app
 
 RUN yarn build
+
+RUN npx apollo service:push --endpoint=http://prisma.asjas.co.za:4466/hackernews/prod
 
 EXPOSE 4000
 
