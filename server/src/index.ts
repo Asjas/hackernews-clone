@@ -1,6 +1,5 @@
-import Koa from 'koa';
-import { ApolloServer } from 'apollo-server-koa';
 require('dotenv').config({ path: `${__dirname}/.env` });
+import { ApolloServer } from 'apollo-server';
 import { prisma } from './generated/prisma-client';
 import resolvers from './resolvers';
 import { typeDefs } from './schema';
@@ -8,6 +7,10 @@ import { typeDefs } from './schema';
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  cors: {
+    credentials: true,
+    origin: '*',
+  },
   playground: {
     settings: {
       'editor.cursorShape': 'underline',
@@ -15,19 +18,18 @@ const server = new ApolloServer({
       'editor.fontSize': 16,
     },
   },
+  cacheControl: {
+    defaultMaxAge: 600,
+  },
+  tracing: true,
   introspection: true,
-  context: ({ ctx }) => ({
-    ...ctx,
+  context: ({ req }) => ({
+    ...req,
     prisma,
   }),
 });
 
-const app = new Koa();
-server.applyMiddleware({ app });
-
-const httpServer = app.listen({ port: 4000 }, () => {
-  console.log(`✔️ Server ready at http://localhost:4000${server.graphqlPath}`);
-  process.send('ready');
+server.listen().then(({ url, subscriptionsUrl }) => {
+  console.log(`✔️ Server ready at ${url}`);
+  console.log(`✔️ Subscriptions ready at ${subscriptionsUrl}`);
 });
-
-server.installSubscriptionHandlers(httpServer);

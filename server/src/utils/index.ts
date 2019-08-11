@@ -1,6 +1,5 @@
 import * as jwt from 'jsonwebtoken';
 import { Prisma } from '../generated/prisma-client';
-export const APP_SECRET = 'GraphQL-is-aw3some';
 
 export interface Context {
   prisma: Prisma;
@@ -9,6 +8,7 @@ export interface Context {
 
 export function getUserId(ctx: Context) {
   const Authorization: string = ctx.request.get('Authorization');
+  const { APP_SECRET } = process.env;
 
   if (Authorization) {
     const token = Authorization.replace('Bearer ', '');

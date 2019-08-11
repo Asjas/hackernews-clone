@@ -1,6 +1,8 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
-import { Context, APP_SECRET, getUserId } from '../utils';
+import { Context, getUserId } from '../utils';
+
+const { APP_SECRET } = process.env;
 
 export const Mutation = {
   async signup(parent, args, ctx: Context, info) {
