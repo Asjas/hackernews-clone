@@ -1,0 +1,51 @@
+{
+  "name": "hackernews-client",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint:css": "stylelint './src/**/*.tsx'"
+  },
+  "dependencies": {
+    "@apollo/react-hooks": "^3.0.0",
+    "@apollo/react-ssr": "^3.0.0",
+    "apollo-cache-inmemory": "^1.6.3",
+    "apollo-client": "^2.6.4",
+    "apollo-link": "^1.2.12",
+    "apollo-link-error": "^1.1.11",
+    "apollo-link-http": "^1.5.15",
+    "graphql": "^14.4.2",
+    "graphql-tag": "^2.10.1",
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^9.0.3",
+    "nprogress": "^0.2.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "styled-components": "^4.3.2"
+  },
+  "devDependencies": {
+    "@apollo/react-testing": "^3.0.0",
+    "@babel/core": "7.5.5",
+    "@testing-library/jest-dom": "^4.0.0",
+    "@testing-library/react": "^9.1.0",
+    "@types/jest": "^24.0.17",
+    "@types/node": "^12.7.1",
+    "@types/react": "^16.9.1",
+    "@types/react-dom": "^16.8.5",
+    "@types/styled-components": "^4.1.18",
+    "babel-jest": "24.8.0",
+    "babel-plugin-styled-components": "^1.10.6",
+    "jest": "24.8.0",
+    "jest-styled-components": "^6.3.3",
+    "stylelint": "^10.1.0",
+    "stylelint-config-recommended": "^2.2.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.8.0",
+    "typescript": "^3.5.3"
+  }
+}
