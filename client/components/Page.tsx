@@ -1,19 +1,16 @@
 import * as React from 'react';
-import { ThemeProvider } from 'styled-components';
 
 import Meta from './Meta';
 import Header from './Header';
 
-const theme = {
-  colors: {
-    primary: '#0070f3',
-  },
-};
+import { ThemeProvider } from '../utils/themed-styled-components';
+import { myTheme, GlobalStyle } from '../utils/theme';
 
 const Page = ({ children }) => (
   <>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={myTheme}>
       <div>
+        <GlobalStyle />
         <Meta />
         <Header />
         {children}

@@ -1,12 +1,25 @@
-import React from 'react';
-import initApollo from './init-apollo';
+import * as React from 'react';
 import Head from 'next/head';
+import { ApolloClient } from 'apollo-client';
+import { ApolloProvider } from '@apollo/react-hooks';
 import { getDataFromTree } from '@apollo/react-ssr';
 
-export default App => {
-  return class Apollo extends React.Component {
-    static displayName = 'withApollo(App)';
-    static async getInitialProps(ctx) {
+import initApollo from './init-apollo';
+
+const isBrowser: boolean = typeof window === 'undefined';
+
+export default (App: any) => {
+  return class withData extends React.Component {
+    private apollo: ApolloClient<any>;
+
+    constructor(props: any, ctx) {
+      super(props, ctx);
+      this.apollo = initApollo(props.apolloState);
+    }
+
+    static displayName = 'withData(App)';
+
+    static async getInitialProps(ctx: any) {
       const { AppTree } = ctx;
 
       let appProps = {};
@@ -17,10 +30,15 @@ export default App => {
       // Run all GraphQL queries in the component tree
       // and extract the resulting data
       const apollo = initApollo();
-      if (typeof window === 'undefined') {
+
+      if (!isBrowser) {
         try {
           // Run all GraphQL queries
-          await getDataFromTree(<AppTree {...appProps} apolloClient={apollo} />);
+          await getDataFromTree(
+            <ApolloProvider client={apollo}>
+              <AppTree {...appProps} apolloClient={apollo} />
+            </ApolloProvider>,
+          );
         } catch (error) {
           // Prevent Apollo Client GraphQL errors from crashing SSR.
           // Handle them in components via the data.error prop:
@@ -42,13 +60,12 @@ export default App => {
       };
     }
 
-    constructor(props) {
-      super(props);
-      this.apolloClient = initApollo(props.apolloState);
-    }
-
     render() {
-      return <App apolloClient={this.apolloClient} {...this.props} />;
+      return (
+        <ApolloProvider client={this.apollo}>
+          <App {...this.props} />
+        </ApolloProvider>
+      );
     }
   };
 };
