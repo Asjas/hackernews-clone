@@ -12,23 +12,21 @@
     "lint:css": "stylelint './src/**/*.tsx'"
   },
   "dependencies": {
-    "@apollo/react-hooks": "^3.0.0",
-    "@apollo/react-ssr": "^3.0.0",
-    "apollo-cache-inmemory": "^1.6.3",
-    "apollo-client": "^2.6.4",
-    "apollo-link-http": "^1.5.15",
+    "@urql/exchange-graphcache": "^1.0.0-rc.0",
     "dotenv": "^8.0.0",
-    "graphql": "^14.4.2",
+    "graphql": "^14.5.4",
     "graphql-tag": "^2.10.1",
     "isomorphic-unfetch": "^3.0.0",
-    "next": "^9.0.3",
+    "next": "^9.0.5",
     "nprogress": "^0.2.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "styled-components": "^4.3.2"
+    "react-is": "^16.9.0",
+    "react-ssr-prepass": "^1.0.6",
+    "styled-components": "^4.3.2",
+    "urql": "^1.4.1"
   },
   "devDependencies": {
-    "@apollo/react-testing": "^3.0.0",
     "@babel/core": "7.5.5",
     "@testing-library/jest-dom": "^4.0.0",
     "@testing-library/react": "^9.1.0",

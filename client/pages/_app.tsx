@@ -1,20 +1,22 @@
 import React from 'react';
-import App, { Container } from 'next/app';
+import App from 'next/app';
+import { Provider } from 'urql';
 
 import Page from '../components/Page';
-import withData from '../lib/withData';
+import withUrqlClient from '../lib/with-urql-client';
 
 class MyApp extends App {
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, urqlClient } = this.props as any;
+
     return (
-      <Container>
+      <Provider value={urqlClient}>
         <Page>
           <Component {...pageProps} />
         </Page>
-      </Container>
+      </Provider>
     );
   }
 }
 
-export default withData(MyApp);
+export default withUrqlClient(MyApp);
