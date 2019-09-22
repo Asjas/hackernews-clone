@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  server:
+  backend_server:
     image: hackernews-server:v1.1.0
     deploy:
       replicas: 1
@@ -10,11 +10,10 @@ services:
           cpus: "0.2"
           memory: 300M
       labels:
-        - traefik.frontend.rule=Host:hackernews-api.asjas.co.za
+        - traefik.http.routers.backend_server.rule=Path:/api
+        - traefik.http.routers.backend_server.tls=true
+        - traefik.http.routers.backend_server.entrypoints=https
         - traefik.enable=true
-        - traefik.protocol=https
-        - traefik.backend=hackernews-server
-        - traefik.port=4000
       restart_policy:
         condition: on-failure
     ports:
@@ -22,5 +21,91 @@ services:
     networks:
       - web
 
+  db:
+    image: mariadb:10.4.7
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.15"
+          memory: 180M
+      restart_policy:
+        condition: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: DoMiNuS
+      MYSQL_DATABASE: prisma
+      MYSQL_ROOT_HOST: "%"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - web
+
+  prisma:
+    image: prismagraphql/prisma:1.34
+    deploy:
+      labels:
+        - traefik.http.routers.prisma.rule=Path:/prisma
+        - traefik.http.routers.prisma.tls=true
+        - traefik.http.routers.prisma.entrypoints=https
+        - traefik.enable=true
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.4"
+          memory: 600M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "4466:4466"
+    networks:
+      - web
+    depends_on:
+      - db
+    environment:
+      PRISMA_CONFIG: |
+        managementApiSecret: "hY98DSFLKjasdh8890839r"
+        port: 4466
+        databases:
+          default:
+            connector: mysql
+            migrations: enable
+            host: db
+            port: 3306
+            user: root
+            password: DoMiNuS
+
+  traefik:
+    image: traefik:v1.7.16
+    environment:
+      - CF_API_EMAIL=asjas@outlook.com
+      - CF_API_KEY=1eee51ef74e28bed3a4b4dc8a335af1a113b7
+    networks:
+      - web
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 200M
+      restart_policy:
+        condition: on-failure
+      labels:
+        - traefik.http.routers.traefik.rule=Path:/traefik
+        - traefik.http.routers.traefik.tls=true
+        - traefik.http.routers.traefik.entrypoints=https
+        - traefik.enable=true
+    ports:
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/traefik.toml:/traefik.toml
+      - ./traefik/letsencrypt/:/letsencrypt/"
+      - ./traefik/certs/:/certs/
+
 networks:
   web:
+  internal:
+
+volumes:
+  db-data:

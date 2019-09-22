@@ -1,0 +1,40 @@
+debug = true
+
+logLevel = "DEBUG"
+defaultEntryPoints = ["https", "http"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+  compress = true
+#    [entryPoints.http.redirect]
+#    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+  compress = true
+    [entryPoints.https.tls]
+
+[retry]
+
+[providers.docker]
+endpoint = "unix:///var/run/docker.sock"
+watch = true
+domain = "hackernews.asjas.co.za"
+swarmMode = true
+swarmModeRefreshSeconds = "30s"
+network = "hackernews_web"
+exposedByDefault = false
+
+[api]
+dashboard = true
+insecure = true
+
+[acme]
+email = "admin@asjas.co.za"
+storage = "/letsencrypt/acme.json"
+caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+entryPoint = "https"
+onHostRule = true
+  [acme.dnsChallenge]
+  provider = "cloudflare"
+  delayBeforeCheck = 0
