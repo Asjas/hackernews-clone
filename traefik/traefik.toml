@@ -27,7 +27,7 @@ exposedByDefault = false
 
 [api]
 dashboard = true
-insecure = true
+entryPoint = "traefik"
 
 [acme]
 email = "admin@asjas.co.za"
@@ -35,6 +35,9 @@ storage = "/letsencrypt/acme.json"
 caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
 entryPoint = "https"
 onHostRule = true
-  [acme.dnsChallenge]
+[acme.dnsChallenge]
   provider = "cloudflare"
   delayBeforeCheck = 0
+
+[[acme.domains]]
+  main = "hackernews.asjas.co.za"
