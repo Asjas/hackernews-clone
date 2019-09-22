@@ -1,15 +1,13 @@
 FROM node:10.16.2-stretch
 
+EXPOSE 4000
+
 RUN apt update && apt install vim -y
 
 ENV NODE_ENV production
-ENV PM2_PUBLIC_KEY vxqa4sl51s5qhbz
-ENV PM2_SECRET_KEY sabgc98o5d73n7p
-ENV PRISMA_ENDPOINT "http://prisma.asjas.co.za:4466/hackernews/prod"
+ENV PRISMA_ENDPOINT "https://hackernews.asjas.co.za/prisma/hackernews/prod"
 ENV PRISMA_SECRET "hY98DSFLKjasdh8890839r"
 ENV PRISMA_MANAGEMENT_API_SECRET "hY98DSFLKjasdh8890839r"
-
-RUN npm install pm2 yarn -g
 
 RUN mkdir -p /app
 
@@ -24,8 +22,6 @@ COPY . /app
 
 RUN yarn build
 
-RUN npx apollo service:push --endpoint=http://prisma.asjas.co.za:4466/hackernews/prod
+RUN npx apollo service:push --endpoint=https://hackernews.asjas.co.za/prisma/hackernews/prod
 
-EXPOSE 4000
-
-CMD ["pm2-runtime", "start", "ecosystem.config.js", "--env", "production"]
+CMD ["node", "dist/index.js"]
