@@ -10,7 +10,9 @@
     "build-ts": "tsc",
     "prisma:deploy": "prisma deploy",
     "prisma:deploy:dev": "prisma deploy --env-file src/.env",
-    "prisma:generate": "prisma generate --env-file src/.env"
+    "prisma:generate": "prisma generate --env-file src/.env",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "apollo-server": "^2.8.1",
@@ -20,7 +22,8 @@
     "jsonwebtoken": "^8.5.1",
     "prisma": "^1.34.5",
     "rimraf": "^2.6.3",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "snyk": "^1.230.5"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -44,5 +47,6 @@
       "prettier --write",
       "git add"
     ]
-  }
+  },
+  "snyk": true
 }
