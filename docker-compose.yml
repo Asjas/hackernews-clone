@@ -1,121 +1,66 @@
 version: "3.7"
 
 services:
-  backend_server:
-    image: asjas/hackernews-server:v1.1.1
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: "0.20"
-          memory: 300M
-      labels:
-        - "traefik.http.routers.backend_server.rule=Host:hackernews.asjas.co.za/api"
-        - "traefik.http.routers.backend_server.tls=true"
-        - "traefik.http.routers.backend_server.entrypoints=https"
-        - "traefik.docker.network=web"
-        - "traefik.enable=true"
-        - "traefik.backend=backend_server"
-        - "traefik.port=4000"
-      restart_policy:
-        condition: on-failure
+  mysql:
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: prisma
+      MYSQL_ROOT_PASSWORD: prisma
+    volumes:
+      - mysql:/var/lib/mysql
+  prisma:
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    container_name: prisma
+    ports:
+      - "5555:5555"
+    build:
+      context: server/prisma
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_URL: ${MYSQL_URL}
+    volumes:
+      - /app/prisma
+  server:
+    links:
+      - mysql
+    depends_on:
+      - mysql
+      - prisma
+    container_name: server
     ports:
       - "4000:4000"
-    networks:
-      - web
-
-  db:
-    image: mariadb:10.4.7
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: "0.15"
-          memory: 180M
-      labels:
-        - "traefik.enable=false"
-      restart_policy:
-        condition: on-failure
+    build:
+      context: server
+      dockerfile: Dockerfile
+      args:
+        - MYSQL_URL=${MYSQL_URL}
     environment:
-      MYSQL_ROOT_PASSWORD: DoMiNuS
-      MYSQL_DATABASE: prisma
-      MYSQL_ROOT_HOST: "%"
+      MYSQL_URL: ${MYSQL_URL}
+      FRONTEND_URL: ${FRONTEND_URL}
     volumes:
-      - db-data:/var/lib/mysql
-    networks:
-      - db
-
-  prisma:
-    image: prismagraphql/prisma:1.34
-    deploy:
-      labels:
-        - "traefik.http.routers.prisma.rule=Host:hackernews.asjas.co.za; PathPrefixStrip:/prisma"
-        - "traefik.http.routers.prisma.tls=true"
-        - "traefik.http.routers.prisma.entrypoints=https"
-        - "traefik.docker.network=web"
-        - "traefik.enable=true"
-        - "traefik.backend=prisma"
-        - "traefik.port=4466"
-      replicas: 1
-      resources:
-        limits:
-          cpus: "0.4"
-          memory: 600M
-      restart_policy:
-        condition: on-failure
+      - ./server:/app
+      - /app/node_modules
+      - /app/prisma
+  client:
+    container_name: client
     ports:
-      - "4466:4466"
-    networks:
-      - web
-      - db
+      - "3000:3000"
+    build:
+      context: client
+      dockerfile: Dockerfile
     environment:
-      PRISMA_CONFIG: |
-        managementApiSecret: "hY98DSFLKjasdh8890839r"
-        port: 4466
-        databases:
-          default:
-            connector: mysql
-            migrations: enable
-            host: db
-            port: 3306
-            user: root
-            password: DoMiNuS
-
-  traefik:
-    image: traefik:v1.7.16
-    environment:
-      - CF_API_EMAIL=asjas@outlook.com
-      - CF_API_KEY=1eee51ef74e28bed3a4b4dc8a335af1a113b7
-    networks:
-      - web
-    deploy:
-      replicas: 1
-      resources:
-        limits:
-          cpus: "0.2"
-          memory: 200M
-      restart_policy:
-        condition: on-failure
-      labels:
-        - "traefik.http.routers.traefik.rule=Host:hackernews.asjas.co.za/traefik"
-        - "traefik.http.routers.traefik.tls=true"
-        - "traefik.http.routers.traefik.entrypoints=traefik"
-        - "traefik.docker.network=web"
-        - "traefik.enable=true"
-        - "traefik.backend=traefik"
-        - "traefik.port=8080"
-    ports:
-      - "80:80"
-      - "443:443"
+      BACKEND_URL: ${BACKEND_URL}
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik/traefik.toml:/traefik.toml
-      - ./traefik/letsencrypt/:/letsencrypt/
-      - ./traefik/certs/:/certs/
+      - ./client:/app
+      - /app/node_modules
+      - /app/.next
 
-networks:
-  web:
-  db:
-
-volumes:
-  db-data:
+volumes: #define our mysql volume used above
+  mysql:
