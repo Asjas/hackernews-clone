@@ -1,22 +1,24 @@
 version: "3.7"
 
 services:
-  mysql:
-    container_name: mysql
+  postgres:
+    container_name: prisma_db
     ports:
-      - "3306:3306"
-    image: mysql:5.7
+      - "5432:5432"
+    image: postgres:11.6
     restart: always
     environment:
-      MYSQL_DATABASE: prisma
-      MYSQL_ROOT_PASSWORD: prisma
+      POSTGRES_PASSWORD: prisma
+      POSTGRES_USER: prisma
+      POSTGRES_DB: prisma
     volumes:
-      - mysql:/var/lib/mysql
+      - postgres:/var/lib/postgresql/data
+
   prisma:
     links:
-      - mysql
+      - prisma_db
     depends_on:
-      - mysql
+      - prisma_db
     container_name: prisma
     ports:
       - "5555:5555"
@@ -27,11 +29,12 @@ services:
       MYSQL_URL: ${MYSQL_URL}
     volumes:
       - /app/prisma
+
   server:
     links:
-      - mysql
+      - prisma_db
     depends_on:
-      - mysql
+      - prisma_db
       - prisma
     container_name: server
     ports:
@@ -48,6 +51,7 @@ services:
       - ./server:/app
       - /app/node_modules
       - /app/prisma
+
   client:
     container_name: client
     ports:
@@ -62,5 +66,5 @@ services:
       - /app/node_modules
       - /app/.next
 
-volumes: #define our mysql volume used above
-  mysql:
+volumes: #define our postgres volume used above
+  postgres:

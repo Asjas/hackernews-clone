@@ -15,6 +15,7 @@
   "dependencies": {
     "@prisma/client": "2.0.0-preview021",
     "apollo-server": "2.10.0",
+    "argon2-ffi": "^1.1.2",
     "bcryptjs": "2.4.3",
     "dotenv": "8.2.0",
     "graphql": "14.6.0",
