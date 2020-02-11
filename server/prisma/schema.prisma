@@ -1,0 +1,33 @@
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://prisma:prisma@localhost:5432/prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Link {
+  id          Int      @id @default(cuid())
+  description String
+  url         String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  postedBy    User
+  votes       Vote[]
+}
+
+model User {
+  id       Int    @id @default(cuid())
+  name     String
+  email    String @unique
+  password String
+  links    Link[]
+  votes    Vote[]
+}
+
+model Vote {
+  id   Int  @id @default(cuid())
+  link Link
+  user User
+}

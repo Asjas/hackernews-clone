@@ -5,22 +5,26 @@ import { Context, getUserId } from '../utils';
 const { APP_SECRET } = process.env;
 
 export const Mutation = {
-  async signup(parent, args, ctx: Context, info) {
+  async signup(parent, args, ctx, info) {
     args.email = args.email.toLowerCase();
 
     const password = await bcrypt.hash(args.password, 10);
 
-    const user = await ctx.prisma.createUser({
-      ...args,
-      password,
+    const user = await ctx.prisma.user.create({
+      data: {
+        ...args,
+        password,
+      },
     });
+
+    console.log(user);
 
     const token = jwt.sign({ userId: user.id }, APP_SECRET);
 
     return { token, user };
   },
   async login(parent, args, ctx: Context, info) {
-    const user = await ctx.prisma.user({ email: args.email });
+    const user = await ctx.prisma.user.findOne({ email: args.email });
 
     if (!user) {
       throw new Error('No such user found!');
@@ -39,7 +43,7 @@ export const Mutation = {
   async post(parent, args, ctx: Context, info) {
     const userId = getUserId(ctx);
 
-    const Link = await ctx.prisma.createLink({
+    const Link = await ctx.prisma.user.createLink({
       url: args.url,
       description: args.description,
       postedBy: { connect: { id: userId } },
@@ -59,7 +63,7 @@ export const Mutation = {
       throw new Error(`Already voted for link: ${args.linkId}`);
     }
 
-    return ctx.prisma.createVote({
+    return ctx.prisma.user.createVote({
       user: { connect: { id: userId } },
       link: { connect: { id: args.linkId } },
     });

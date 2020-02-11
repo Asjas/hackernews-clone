@@ -1,8 +1,12 @@
-require('dotenv').config({ path: `${__dirname}/.env` });
+import dotenv from 'dotenv';
 import { ApolloServer } from 'apollo-server';
-import { prisma } from './generated/prisma-client';
+import { PrismaClient } from '@prisma/client';
+
 import resolvers from './resolvers';
 import { typeDefs } from './schema';
+
+dotenv.config();
+const prisma = new PrismaClient();
 
 const server = new ApolloServer({
   typeDefs,
@@ -19,7 +23,7 @@ const server = new ApolloServer({
     },
   },
   cacheControl: {
-    defaultMaxAge: 600,
+    defaultMaxAge: 60,
   },
   tracing: true,
   introspection: true,
