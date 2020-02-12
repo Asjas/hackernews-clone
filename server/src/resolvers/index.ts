@@ -9,7 +9,6 @@ export default {
   Link,
   Mutation,
   Query,
-  Subscription,
   User,
   Vote,
 };

@@ -9,18 +9,18 @@
     "build": "rimraf dist && npm -s run generate && tsc",
     "prisma:watch": "prisma2 generate --watch",
     "prisma:generate": "prisma2 generate",
+    "prisma:migrate:save": "prisma2 migrate save --name hackernews --experimental",
+    "prisma:migrate:up": "prisma2 migrate up --experimental",
     "prisma:studio": "prisma2 studio --experimental",
     "postinstall": "npm -s run prisma:generate"
   },
   "dependencies": {
     "@prisma/client": "2.0.0-preview021",
     "apollo-server": "2.10.0",
-    "argon2-ffi": "^1.1.2",
-    "bcryptjs": "2.4.3",
+    "argon2": "0.26.0",
     "dotenv": "8.2.0",
     "graphql": "14.6.0",
     "jsonwebtoken": "8.5.1",
-    "nexus-prisma": "^0.9.1",
     "rimraf": "3.0.2",
     "typescript": "3.7.5"
   },

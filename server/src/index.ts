@@ -2,10 +2,11 @@ import dotenv from 'dotenv';
 import { ApolloServer } from 'apollo-server';
 import { PrismaClient } from '@prisma/client';
 
+dotenv.config();
+
 import resolvers from './resolvers';
 import { typeDefs } from './schema';
 
-dotenv.config();
 const prisma = new PrismaClient();
 
 const server = new ApolloServer({
@@ -13,7 +14,7 @@ const server = new ApolloServer({
   resolvers,
   cors: {
     credentials: true,
-    origin: '*',
+    origin: ['http://localhost:7777'],
   },
   playground: {
     settings: {
@@ -33,7 +34,6 @@ const server = new ApolloServer({
   }),
 });
 
-server.listen().then(({ url, subscriptionsUrl }) => {
+server.listen().then(({ url }) => {
   console.log(`✔️ Server ready at ${url}`);
-  console.log(`✔️ Subscriptions ready at ${subscriptionsUrl}`);
 });
