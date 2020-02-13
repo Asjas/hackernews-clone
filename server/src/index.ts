@@ -37,3 +37,25 @@ const server = new ApolloServer({
 server.listen().then(({ url }) => {
   console.log(`✔️ Server ready at ${url}`);
 });
+
+//catches ctrl+c event
+process.on('SIGINT', function() {
+  prisma.disconnect();
+  process.exit(1);
+});
+
+// catches "kill pid" (for example: nodemon restart)
+process.on('SIGUSR1', function() {
+  prisma.disconnect();
+  process.exit(1);
+});
+process.on('SIGUSR2', function() {
+  prisma.disconnect();
+  process.exit(1);
+});
+
+//catches uncaught exceptions
+process.on('uncaughtException', function() {
+  prisma.disconnect();
+  process.exit(1);
+});
