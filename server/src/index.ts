@@ -14,7 +14,7 @@ const server = new ApolloServer({
   resolvers,
   cors: {
     credentials: true,
-    origin: ['http://localhost:7777'],
+    origin: ['http://localhost:3000'],
   },
   playground: {
     settings: {
