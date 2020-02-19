@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Link = ({ link }) => {
+function Link({ link }) {
   return (
     <div>
       <div>
@@ -8,6 +8,6 @@ const Link = ({ link }) => {
       </div>
     </div>
   );
-};
+}
 
 export default Link;

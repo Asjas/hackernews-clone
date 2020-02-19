@@ -1,7 +1,7 @@
 module.exports = {
   target: 'serverless',
   env: {
-    BACKEND_URL: process.env.BACKEND_URL,
+    BACKEND_URL: 'http://localhost:4000',
   },
   webpackDevMiddleware: config => {
     // Solve compiling problem via vagrant
@@ -11,4 +11,5 @@ module.exports = {
     };
     return config;
   },
+  poweredByHeader: false,
 };

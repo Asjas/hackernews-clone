@@ -14,12 +14,14 @@ const linksToRender = [
   },
 ];
 
-const LinkList = () => (
-  <div>
-    {linksToRender.map(link => (
-      <Link key={link.id} link={link} />
-    ))}
-  </div>
-);
+function LinkList() {
+  return (
+    <div>
+      {linksToRender.map(link => (
+        <Link key={link.id} link={link} />
+      ))}
+    </div>
+  );
+}
 
 export default LinkList;
