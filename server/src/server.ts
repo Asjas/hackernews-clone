@@ -24,7 +24,7 @@ function createServer() {
   });
 
   server.register(fastifySentry, {
-    dsn: 'https://60d9614f331c4cc4b67ec05a9f0b1926@o183318.ingest.sentry.io/5426327',
+    dsn: 'https://8a1b972b989d4a919b705a39b67ab5a2@o183318.ingest.sentry.io/5434925',
     environment: process.env.NODE_ENV,
     errorHandler: (err: any, _request: FastifyRequest, reply: FastifyReply) => {
       server.log.error(err.toString());
