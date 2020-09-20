@@ -11,6 +11,9 @@ pids
 *.seed
 *.pid.lock
 
+# Mac file
+.DS_Store
+
 # Dependency directories
 node_modules/
 
@@ -28,3 +31,7 @@ node_modules/
 
 # TypeScript server build folder
 dist/
+
+# Sapper
+/src/node_modules/@sapper/
+/__sapper__/
