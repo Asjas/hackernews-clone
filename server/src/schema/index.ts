@@ -1,18 +1,20 @@
-import { gql } from 'apollo-server';
+const gql = String.raw;
 
-export const typeDefs = gql`
-  enum LinkOrderByInput {
-    description_ASC
-    description_DESC
-    url_ASC
-    url_DESC
-    createdAt_ASC
-    createdAt_DESC
+export const schema = gql`
+  enum Sort {
+    asc
+    desc
+  }
+
+  input LinkOrderByInput {
+    description: Sort
+    url: Sort
+    createdAt: Sort
   }
 
   type Query {
     info: String!
-    feed(filter: String, skip: Int, first: Int, orderBy: LinkOrderByInput): Feed!
+    feed(filter: String, skip: Int, take: Int, orderBy: LinkOrderByInput): Feed!
   }
 
   type Mutation {
@@ -38,7 +40,7 @@ export const typeDefs = gql`
   type User {
     id: ID!
     name: String!
-    email: String
+    email: String!
     links: [Link!]!
   }
 

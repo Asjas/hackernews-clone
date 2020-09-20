@@ -1,13 +1,20 @@
+import { FastifyRequest } from 'fastify';
 import * as jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
+
+dotenv.config();
+
+export const APP_SECRET = process.env.APP_SECRET;
 
 export interface Context {
   prisma: PrismaClient;
-  request: any;
+  raw: FastifyRequest;
+  pubsub: any;
 }
 
 export function getUserId(ctx: Context) {
-  const Authorization: string = ctx['headers'].authorization;
+  const Authorization = ctx?.raw?.headers?.authorization;
   const { APP_SECRET } = process.env;
 
   if (Authorization) {
@@ -17,5 +24,5 @@ export function getUserId(ctx: Context) {
     return userId;
   }
 
-  throw new Error('Not authenticated');
+  throw new Error('Not authenticated! Please log in.');
 }

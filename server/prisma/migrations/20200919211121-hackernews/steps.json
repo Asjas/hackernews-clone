@@ -1,0 +1,57 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "Link",
+      "field": "postedById",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Link",
+      "field": "postedBy",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Link",
+          "field": "postedBy"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Link",
+          "field": "postedBy"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[postedById]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Link",
+          "field": "postedBy"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    }
+  ]
+}

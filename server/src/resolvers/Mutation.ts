@@ -1,11 +1,11 @@
+// @ts-nocheck
+
 import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
-import { Context, getUserId } from '../utils';
-
-const { APP_SECRET } = process.env;
+import { Context, getUserId, APP_SECRET } from '../utils';
 
 export const Mutation = {
-  async signup(parent, args, ctx, info) {
+  async signup(_parent, args, ctx: Context, _info) {
     args.email = args.email.toLowerCase();
 
     const password = await argon2.hash(args.password);
@@ -21,7 +21,7 @@ export const Mutation = {
 
     return { token, user };
   },
-  async login(parent, args, ctx: Context, info) {
+  async login(_parent, args, ctx: Context, _info) {
     const user = await ctx.prisma.user.findOne({ where: { email: args.email } });
 
     if (!user) {
@@ -38,10 +38,10 @@ export const Mutation = {
 
     return { token, user };
   },
-  async post(parent, args, ctx: Context, info) {
+  async post(_parent, args, ctx: Context, _info) {
     const userId = getUserId(ctx);
 
-    const Link = await ctx.prisma.link.create({
+    const newLink = await ctx.prisma.link.create({
       data: {
         url: args.url,
         description: args.description,
@@ -49,29 +49,35 @@ export const Mutation = {
       },
     });
 
-    return Link;
+    await ctx.pubsub.publish({ topic: 'newLink', payload: { newLink } });
+
+    return newLink;
   },
-  async vote(parent, args, ctx: Context, info) {
+  async vote(_parent, args, ctx: Context, _info) {
     const userId = getUserId(ctx);
 
-    const linkExists = await ctx.prisma.vote.findOne({ where: { id: userId } });
+    const vote = await ctx.prisma.vote.findOne({
+      where: {
+        linkId_userId: {
+          linkId: Number(args.linkId),
+          userId: userId,
+        },
+      },
+    });
 
-    // ({
-    //   user: { id: userId },
-    //   link: { id: args.linkId },
-    // });
-
-    console.log(linkExists);
-
-    if (linkExists.id === args.linkId) {
+    if (Boolean(vote)) {
       throw new Error(`Already voted for link: ${args.linkId}`);
     }
 
-    const voted = await ctx.prisma.vote.create({
+    const newVote = await ctx.prisma.vote.create({
       data: {
         user: { connect: { id: userId } },
         link: { connect: { id: Number(args.linkId) } },
       },
     });
+
+    await ctx.pubsub.publish({ topic: 'newVote', payload: { newVote } });
+
+    return newVote;
   },
 };

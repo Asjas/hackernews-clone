@@ -6,9 +6,10 @@ import { User } from './User';
 import { Vote } from './Vote';
 
 export default {
-  Link,
-  Mutation,
   Query,
+  Mutation,
+  Subscription,
   User,
+  Link,
   Vote,
 };
