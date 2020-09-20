@@ -38,6 +38,7 @@ function createServer() {
   server.register(GQL, {
     schema,
     resolvers,
+    jit: 1,
     subscription: {
       context: (_con, request) => {
         return {
