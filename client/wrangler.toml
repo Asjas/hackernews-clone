@@ -1,0 +1,10 @@
+account_id = "d34e365e96c3cd636081f05b0a6b031a"
+name = "hackernews"
+type = "webpack"
+route = "https://hackernews.asjas.xyz/*"
+workers_dev = false
+zone_id = "34bf06b11a24aee26d1c99056fe3fdf9"
+
+[site]
+bucket = "./dist/"
+entry-point = "workers-site"
