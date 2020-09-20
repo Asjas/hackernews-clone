@@ -2,6 +2,7 @@
 
 import fastify, { FastifyRequest, FastifyReply } from 'fastify';
 import GQL from 'fastify-gql';
+import cors from 'fastify-cors';
 import { PrismaClient } from '@prisma/client';
 import resolvers from './resolvers';
 import { schema } from './schema';
@@ -11,6 +12,11 @@ const prisma = new PrismaClient();
 function createServer() {
   const server = fastify({
     logger: true,
+  });
+
+  server.register(cors, {
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
   });
 
   server.register(require('fastify-sentry'), {
