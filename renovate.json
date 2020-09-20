@@ -1,5 +1,34 @@
 {
   "extends": [
     "config:base"
-  ]
+  ],
+  "assignees": [
+    "asjas"
+  ],
+  "assignAutomerge": true,
+  "labels": [
+    "renovate-bot"
+  ],
+  "packageRules": [
+    {
+      "packagePatterns": [
+        "fastify"
+      ],
+      "groupName": "Fastify"
+    },
+    {
+      "packagePatterns": [
+        "types"
+      ],
+      "groupName": "TS Types"
+    },
+    {
+      "packagePatterns": [
+        "@prisma"
+      ],
+      "groupName": "Prisma"
+    }
+  ],
+  "automerge": true,
+  "automergeType": "branch"
 }
