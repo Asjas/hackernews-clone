@@ -1,70 +1,24 @@
-version: "3.7"
+version: "2.4"
 
 services:
-  postgres:
-    container_name: prisma_db
+  hn_database:
+    container_name: hn_database
     ports:
-      - "5432:5432"
-    image: postgres:11.6
+      - "5444:5432"
+    image: postgres:12.4-alpine
     restart: always
-    environment:
-      POSTGRES_PASSWORD: prisma
-      POSTGRES_USER: prisma
-      POSTGRES_DB: prisma
+    env_file: .env
     volumes:
       - postgres:/var/lib/postgresql/data
 
-  prisma:
-    links:
-      - prisma_db
+  hn_dashboard:
+    container_name: hn_dashboard
+    image: adminer
+    restart: always
     depends_on:
-      - prisma_db
-    container_name: prisma
+      - hn_database
     ports:
-      - "5555:5555"
-    build:
-      context: server/prisma
-      dockerfile: Dockerfile
-    environment:
-      MYSQL_URL: ${MYSQL_URL}
-    volumes:
-      - /app/prisma
+      - 8881:8080
 
-  server:
-    links:
-      - prisma_db
-    depends_on:
-      - prisma_db
-      - prisma
-    container_name: server
-    ports:
-      - "4000:4000"
-    build:
-      context: server
-      dockerfile: Dockerfile
-      args:
-        - MYSQL_URL=${MYSQL_URL}
-    environment:
-      MYSQL_URL: ${MYSQL_URL}
-      FRONTEND_URL: ${FRONTEND_URL}
-    volumes:
-      - ./server:/app
-      - /app/node_modules
-      - /app/prisma
-
-  client:
-    container_name: client
-    ports:
-      - "3000:3000"
-    build:
-      context: client
-      dockerfile: Dockerfile
-    environment:
-      BACKEND_URL: ${BACKEND_URL}
-    volumes:
-      - ./client:/app
-      - /app/node_modules
-      - /app/.next
-
-volumes: #define our postgres volume used above
+volumes:
   postgres:
