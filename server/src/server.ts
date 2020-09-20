@@ -39,6 +39,7 @@ function createServer() {
     schema,
     resolvers,
     jit: 1,
+    queryDepth: 9,
     subscription: {
       context: (_con, request) => {
         return {
