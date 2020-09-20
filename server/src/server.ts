@@ -42,7 +42,7 @@ function createServer() {
         };
       },
     },
-    graphiql: 'playground',
+    graphiql: process.env.NODE_ENV !== 'production' && 'playground',
     persistedQueryProvider: GQL.persistedQueryDefaults.automatic(),
     context: (request, _reply) => {
       return {
