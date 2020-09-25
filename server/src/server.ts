@@ -7,12 +7,13 @@ import fastifySentry from 'fastify-sentry';
 import helmet from 'fastify-helmet';
 import noIcon from 'fastify-no-icon';
 import { PrismaClient } from '@prisma/client';
-import resolvers from './resolvers';
-import { schema } from './schema';
-
-const prisma = new PrismaClient();
+import resolvers from './graphql/resolvers';
+import schema from './graphql/schema';
+import healthCheck from './services/health';
 
 function createServer() {
+  const prisma = new PrismaClient();
+
   const server = fastify({
     ignoreTrailingSlash: true,
     trustProxy: '127.0.0.1',
@@ -55,6 +56,8 @@ function createServer() {
       });
     },
   });
+
+  server.register(healthCheck);
 
   server.register(GQL, {
     schema,
