@@ -1,4 +1,4 @@
-import { Context } from '../utils';
+import { Context } from '../../utils';
 
 export const Query = {
   async feed(_parent, args, ctx: Context, _info) {

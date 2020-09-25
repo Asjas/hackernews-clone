@@ -1,6 +1,6 @@
 const gql = String.raw;
 
-export const schema = gql`
+const schema = gql`
   enum Sort {
     asc
     desc
@@ -60,3 +60,5 @@ export const schema = gql`
     newVote: Vote
   }
 `;
+
+export default schema;

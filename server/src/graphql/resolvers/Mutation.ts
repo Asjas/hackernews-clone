@@ -2,7 +2,7 @@
 
 import * as argon2 from 'argon2';
 import * as jwt from 'jsonwebtoken';
-import { Context, getUserId, APP_SECRET } from '../utils';
+import { Context, getUserId, APP_SECRET } from '../../utils';
 
 export const Mutation = {
   async signup(_parent, args, ctx: Context, _info) {

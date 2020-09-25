@@ -1,4 +1,4 @@
-import { Context } from '../utils';
+import { Context } from '../../utils';
 
 export const Vote = {
   async link(parent, _args, ctx: Context, _info) {

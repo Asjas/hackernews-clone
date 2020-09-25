@@ -1,4 +1,4 @@
-import { Context } from '../utils';
+import { Context } from '../../utils';
 
 export const Link = {
   async postedBy(parent, _args, ctx: Context, _info) {
