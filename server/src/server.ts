@@ -1,10 +1,11 @@
 // @ts-nocheck
 
-import fastify, { FastifyRequest, FastifyReply } from 'fastify';
 import GQL from 'fastify-gql';
 import cors from 'fastify-cors';
-import helmet from 'fastify-helmet';
+import fastify, { FastifyRequest, FastifyReply } from 'fastify';
 import fastifySentry from 'fastify-sentry';
+import helmet from 'fastify-helmet';
+import noIcon from 'fastify-no-icon';
 import { PrismaClient } from '@prisma/client';
 import resolvers from './resolvers';
 import { schema } from './schema';
@@ -13,10 +14,30 @@ const prisma = new PrismaClient();
 
 function createServer() {
   const server = fastify({
+    ignoreTrailingSlash: true,
+    trustProxy: '127.0.0.1',
     logger: true,
   });
 
-  server.register(helmet);
+  server.register(helmet, {
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        baseUri: ["'self'"],
+        connectSrc: ["'self'", 'https:'],
+        fontSrc: ["'self'", 'https:', 'data:'],
+        frameAncestors: ["'self'"],
+        imgSrc: ["'self'", 'data:', 'http://cdn.jsdelivr.net', 'https://cdn.jsdelivr.net'],
+        objectSrc: ["'self'"],
+        frameSrc: ["'self'"],
+        styleSrc: ["'self'", 'https:', "'unsafe-inline'", 'http://cdn.jsdelivr.net', 'https://cdn.jsdelivr.net'],
+        scriptSrc: ["'self'", "'unsafe-eval'", 'http://cdn.jsdelivr.net', 'https://cdn.jsdelivr.net'],
+        scriptSrcAttr: ["'self'"],
+      },
+    },
+  });
+
+  server.register(noIcon);
 
   server.register(cors, {
     origin: process.env.FRONTEND_URL,
@@ -38,8 +59,16 @@ function createServer() {
   server.register(GQL, {
     schema,
     resolvers,
+    graphiql: process.env.NODE_ENV !== 'production' && 'playground',
     jit: 1,
     queryDepth: 9,
+    persistedQueryProvider: GQL.persistedQueryDefaults.automatic(),
+    context: (request, _reply) => {
+      return {
+        ...request,
+        prisma,
+      };
+    },
     subscription: {
       context: (_con, request) => {
         return {
@@ -47,14 +76,6 @@ function createServer() {
           prisma,
         };
       },
-    },
-    graphiql: process.env.NODE_ENV !== 'production' && 'playground',
-    persistedQueryProvider: GQL.persistedQueryDefaults.automatic(),
-    context: (request, _reply) => {
-      return {
-        ...request,
-        prisma,
-      };
     },
   });
 
