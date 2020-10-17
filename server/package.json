@@ -32,7 +32,7 @@
   "devDependencies": {
     "@prisma/cli": "2.9.0",
     "@types/jsonwebtoken": "8.5.0",
-    "@types/node": "14.11.8",
+    "@types/node": "14.11.10",
     "husky": "4.3.0",
     "lint-staged": "10.4.0",
     "nodemon": "2.0.5",
