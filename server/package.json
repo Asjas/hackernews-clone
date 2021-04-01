@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@prisma/client": "2.20.1",
-    "argon2": "0.27.1",
+    "argon2": "0.27.2",
     "dotenv": "8.2.0",
     "fastify": "3.14.1",
     "fastify-cors": "5.2.0",
