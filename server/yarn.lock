@@ -1040,10 +1040,10 @@ fastify-websocket@^2.0.5:
     find-my-way "^3.0.0"
     ws "^7.2.3"
 
-fastify@3.16.2:
-  version "3.16.2"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.16.2.tgz#be26789fe9bac588bcbd5ae3ff6d1dc06cd53f00"
-  integrity sha512-tdu0fz6wk9AbtD91AbzZGjKgEQLcIy7rT2vEzTUL/zifAMS/L7ViKY9p9k3g3yCRnIQzYzxH2RAbvYZaTbKasw==
+fastify@3.17.0:
+  version "3.17.0"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.17.0.tgz#1194c430ac3f27fc3e332e461f9521f5e4ff977a"
+  integrity sha512-Jjmqsxtnu7827KPNZWNdz2NUuFCQMojnGgflQ4D8RRatC4DAYA+fx3EDxKsbHim3tFFPLT8qig43K2yMNlUzMA==
   dependencies:
     "@fastify/ajv-compiler" "^1.0.0"
     "@fastify/proxy-addr" "^3.0.0"
