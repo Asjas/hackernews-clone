@@ -14,7 +14,7 @@
     "postinstall": "npm -s run prisma:generate"
   },
   "dependencies": {
-    "@prisma/client": "2.24.0",
+    "@prisma/client": "2.24.1",
     "argon2": "0.27.2",
     "dotenv": "10.0.0",
     "fastify": "3.17.0",
