@@ -179,10 +179,10 @@
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
 
-"@types/jsonwebtoken@8.5.2":
-  version "8.5.2"
-  resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-8.5.2.tgz#eb71c717b3b8681bb85fbd2950c9c4c5d4506748"
-  integrity sha512-X8BOCkp+WJVNYCYIBugREtVZa4Y09Or9HDx6xqRZem5F8jJV8FuJgNessXyMuv9+U8pjnvdezASwU28uw+1scw==
+"@types/jsonwebtoken@8.5.3":
+  version "8.5.3"
+  resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-8.5.3.tgz#de78585ee352593ca627c6ee4afa772bbe020fb7"
+  integrity sha512-uhZGbMfpIC/sI7ujnNdsPFMzqCYMwTBUvVsbJ6yJ+FakM7uTJKyiKaG2HXwOgy7gL+fRqnqxV82bLGmSWDxxGg==
   dependencies:
     "@types/node" "*"
 
@@ -2679,10 +2679,10 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@4.3.4:
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.4.tgz#3f85b986945bcf31071decdd96cf8bfa65f9dcbc"
-  integrity sha512-uauPG7XZn9F/mo+7MrsRjyvbxFpzemRjKEZXS4AK83oP2KKOJPvb+9cO/gmnv8arWZvhnjVOXz7B49m1l0e9Ew==
+typescript@4.3.5:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
+  integrity sha512-DqQgihaQ9cUrskJo9kIyW/+g0Vxsk8cDtZ52a3NGh0YNTfpUSArXSohyUGnvbPazEPLu398C0UxmKSOrPumUzA==
 
 undefsafe@^2.0.3:
   version "2.0.3"
